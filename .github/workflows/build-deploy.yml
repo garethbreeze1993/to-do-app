@@ -4,9 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runner-job:
-      # You must use a Linux environment when using service containers or container jobs
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     environment:
       name: testing
     env:
