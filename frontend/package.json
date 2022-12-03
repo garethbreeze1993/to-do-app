@@ -40,6 +40,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://api:8000"
+  "proxy": "http://api:8000",
+
+  "overrides": {
+    "autoprefixer": "10.4.5"
+}
 
 }

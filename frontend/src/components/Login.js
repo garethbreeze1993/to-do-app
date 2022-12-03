@@ -3,7 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import React, {useEffect} from "react";
+import React from "react";
 import {useNavigate} from "react-router-dom";
 
 
