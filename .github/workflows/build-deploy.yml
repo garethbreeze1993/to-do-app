@@ -64,8 +64,6 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/todo-backend:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/todo-backend:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/todo-backend:buildcache,mode=max
-      - name: Change into frontend directory
-        run: cd ../frontend
       - name: Set Up Node
         uses: actions/setup-node@v3
         with:
