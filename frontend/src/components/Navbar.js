@@ -17,7 +17,6 @@ function NavComponent() {
     base_api.get(`/users/get_user_data`)
         .then((response) => {
             setLoggedIn(true)
-            console.log(response)
             setUserEmail(response.data.email)
           })
         .catch(err => {

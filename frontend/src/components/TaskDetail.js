@@ -27,7 +27,6 @@ function TaskDetail(factory, deps) {
         base_api.get(`/tasks/${taskId}`)
             .then(function (response) {
                 setTask(response.data)
-                console.log(response)
             })
             .catch(function (error) {
                 if(error.response.status === 404 || error.response.status === 401){
@@ -35,7 +34,6 @@ function TaskDetail(factory, deps) {
                 }else {
                     setError(true)
                 }
-                console.log(error)
             })
     }, [taskId])
 
@@ -48,7 +46,6 @@ function TaskDetail(factory, deps) {
                 setBannerLvl("success")
             })
             .catch(function (error) {
-                console.log(error)
                 setBanner(true);
                 setBannerMsg('Unable to complete contact the system administrator')
                 setBannerLvl("danger")

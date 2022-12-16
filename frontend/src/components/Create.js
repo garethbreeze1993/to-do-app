@@ -42,7 +42,6 @@ function Create() {
             .then(function (response) {
                 setFormValues({formTitle: '', formDescription: '', formDeadline: ''})
                 setFormsubmitted(true)
-                console.log(response);
                 })
             .catch(function (error) {
                 setFormError(true)
@@ -52,7 +51,6 @@ function Create() {
                 else{
                     setFormErrorMsg("Error when submitting form. Please try again later.")
                 }
-                console.log(error);
             });
 
     }

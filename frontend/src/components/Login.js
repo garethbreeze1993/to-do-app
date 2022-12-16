@@ -23,11 +23,9 @@ function Login() {
         axios.post(`/login`, bodyFormData)
             .then(function (response) {
                 setFormValues({formEmail: '', formPassword1: ''})
-                console.log(response.data)
                 localStorage.setItem('userToken', response.data.access_token)
                 localStorage.setItem('userRefreshToken', response.data.refresh_token)
                 navigate("/");
-                // console.log(response.data.access_token);
                 })
             .catch(function (error) {
                 setFormError(true)
@@ -37,7 +35,6 @@ function Login() {
                 else{
                     setFormErrorMsg("Error when submitting form. Please try again later.")
                 }
-                console.log(error);
             });
 
     }

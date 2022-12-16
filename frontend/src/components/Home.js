@@ -27,13 +27,11 @@ export default function Home() {
             .then(function (response) {
                 setTaskObj(response.data.items)
                 setTotalEntries(response.data.total)
-                console.log(response)
             })
             .catch(function (error) {
                 if (error.response.data.detail === 'Could not validate credentials'){
                     setLoginTxt(true);
                 }
-                console.log(error)
             })
     }, [page])
 
@@ -54,7 +52,6 @@ export default function Home() {
     React.useEffect(() => {
         base_api.get(`/tasks/`)
             .then(function (response){
-                console.log(response);
                 setAllTaskObj(response.data.items)
             })
             .catch((error) => {

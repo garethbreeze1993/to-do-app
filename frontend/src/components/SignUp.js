@@ -25,12 +25,10 @@ function SignUp() {
             .then(function (response) {
                 setFormValues({formEmail: '', formPassword1: '', formPassword2: ''})
                 setFormsubmitted(true)
-                console.log(response);
                 })
             .catch(function (error) {
                 setFormError(true)
                 setFormErrorMsg("Error when submitting form. Please try again later.")
-                console.log(error);
             });
 
     }
