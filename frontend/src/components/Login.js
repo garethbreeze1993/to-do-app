@@ -20,7 +20,7 @@ function Login() {
         const bodyFormData = new FormData();
         bodyFormData.append('username', formValues.formEmail)
         bodyFormData.append('password', formValues.formPassword1)
-        axios.post(`/login`, bodyFormData)
+        axios.post(`/api/v1/login`, bodyFormData)
             .then(function (response) {
                 setFormValues({formEmail: '', formPassword1: ''})
                 localStorage.setItem('userToken', response.data.access_token)

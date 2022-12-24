@@ -21,7 +21,7 @@ function SignUp() {
         }
         let dataObject = {email: formValues.formEmail, password: formValues.formPassword1}
 
-        axios.post(`/users/`, dataObject)
+        axios.post(`/api/v1/users/`, dataObject)
             .then(function (response) {
                 setFormValues({formEmail: '', formPassword1: '', formPassword2: ''})
                 setFormsubmitted(true)

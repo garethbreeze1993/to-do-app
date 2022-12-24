@@ -23,7 +23,7 @@ export default function Home() {
     // Hardcode for now to implement frontend
 
     React.useEffect(() => {
-        base_api.get(`/tasks/?page=${page}&size=${size}`)
+        base_api.get(`/api/v1/tasks/?page=${page}&size=${size}`)
             .then(function (response) {
                 setTaskObj(response.data.items)
                 setTotalEntries(response.data.total)
@@ -50,7 +50,7 @@ export default function Home() {
     const numberOfPages = calculateNoOfPages(totalEntries, size)
 
     React.useEffect(() => {
-        base_api.get(`/tasks/`)
+        base_api.get(`/api/v1/tasks/`)
             .then(function (response){
                 setAllTaskObj(response.data.items)
             })

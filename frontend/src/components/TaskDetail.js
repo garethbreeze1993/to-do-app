@@ -24,7 +24,7 @@ function TaskDetail(factory, deps) {
     let taskId = parseInt(params.taskID, 10) || false;
 
     React.useEffect(() => {
-        base_api.get(`/tasks/${taskId}`)
+        base_api.get(`/api/v1/tasks/${taskId}`)
             .then(function (response) {
                 setTask(response.data)
             })
@@ -38,7 +38,7 @@ function TaskDetail(factory, deps) {
     }, [taskId])
 
     function handleComplete () {
-        base_api.put(`/tasks/complete/${taskId}`, {"completed": true})
+        base_api.put(`/api/v1/tasks/complete/${taskId}`, {"completed": true})
             .then(function (response) {
                 setTask(response.data);
                 setBanner(true);
@@ -53,7 +53,7 @@ function TaskDetail(factory, deps) {
     }
 
     function handleDelete () {
-        base_api.delete(`/tasks/${taskId}`)
+        base_api.delete(`/api/v1/tasks/${taskId}`)
             .then(function (response) {
                 navigate("/", { state: { deleteObj: true } });
             })

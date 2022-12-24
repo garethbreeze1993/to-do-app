@@ -9,7 +9,7 @@ from app import oauth2
 from app.schemas import AccessToken, Token, RefreshToken
 from app.utils import verify_password
 
-router = APIRouter(tags=["Authentication"])
+router = APIRouter(prefix="/api/v1", tags=["Authentication"])
 
 
 @router.post('/login', response_model=Token)

@@ -8,7 +8,7 @@ from app import models
 from app import oauth2
 from app.schemas import TaskResponse, TaskCreate, TaskComplete
 
-router = APIRouter(prefix="/tasks", tags=["tasks"])
+router = APIRouter(prefix="/api/v1/tasks", tags=["tasks"])
 
 
 @router.get("/", response_model=Page[TaskResponse])

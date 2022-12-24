@@ -8,7 +8,7 @@ from app import oauth2
 from app.schemas import UserCreate, UserResponse
 from app.utils import get_password_hash
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/api/v1/users", tags=["users"])
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserResponse)

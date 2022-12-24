@@ -14,7 +14,7 @@ function NavComponent() {
 
   React.useEffect(() => {
     if(userToken){
-    base_api.get(`/users/get_user_data`)
+    base_api.get(`/api/v1/users/get_user_data`)
         .then((response) => {
             setLoggedIn(true)
             setUserEmail(response.data.email)

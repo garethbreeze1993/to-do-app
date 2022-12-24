@@ -38,7 +38,7 @@ function Create() {
             dataObject['deadline'] = valueObj.formDeadline
         }
 
-        base_api.post(`/tasks/`, dataObject)
+        base_api.post(`/api/v1/tasks/`, dataObject)
             .then(function (response) {
                 setFormValues({formTitle: '', formDescription: '', formDeadline: ''})
                 setFormsubmitted(true)
