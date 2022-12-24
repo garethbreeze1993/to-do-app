@@ -52,7 +52,7 @@ def test_user(client) -> dict:
     :return: dict with user information
     """
     user_dict = {'email': 'gareth@gmail.com', 'password': 'password123'}
-    res = client.post('/users/', json=user_dict)
+    res = client.post('/api/v1/users/', json=user_dict)
     assert res.status_code == 201
     new_user = dict(password=user_dict['password'], **res.json())
     return new_user
@@ -66,7 +66,7 @@ def test_user_2(client) -> dict:
     :return: dict with user information
     """
     user_dict = {'email': 'jack@gmail.com', 'password': 'password1234'}
-    res = client.post('/users/', json=user_dict)
+    res = client.post('/api/v1/users/', json=user_dict)
     assert res.status_code == 201
     new_user = dict(password=user_dict['password'], **res.json())
     return new_user
