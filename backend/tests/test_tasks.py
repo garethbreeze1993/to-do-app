@@ -16,7 +16,7 @@ def test_user_2_get_all_tasks(authorised_client_2, create_test_tasks):
 
 
 def test_unauthorised_user_get_all_tasks(client, create_test_tasks):
-    res = client.get('/tasks')
+    res = client.get('/api/v1/tasks')
     assert res.status_code == 401
 
 
@@ -88,7 +88,7 @@ def test_create_task_test_user_1_deadline_not_set(authorised_client, test_user):
 
 def test_unauthorised_client_create_task(client):
     form_data = {"title": "title1", "description": "description1"}
-    res = client.post("/tasks/", json=form_data)
+    res = client.post("/api/v1/tasks/", json=form_data)
     assert res.status_code == 401
 
 
