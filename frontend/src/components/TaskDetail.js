@@ -12,7 +12,7 @@ import base_api from "../base_api";
 
 
 
-function TaskDetail(factory, deps) {
+function TaskDetail() {
     let params = useParams();
     let navigate = useNavigate();
     const [task, setTask] = React.useState({});
@@ -20,6 +20,21 @@ function TaskDetail(factory, deps) {
     const [banner, setBanner] = React.useState(false);
     const [bannerMsg, setBannerMsg] = React.useState(false);
     const [bannerLvl, setBannerLvl] = React.useState('');
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [userEmail, setUserEmail] = React.useState('');
+
+    const userToken = localStorage.getItem('userToken');
+
+    React.useEffect(() => {
+        base_api.get(`/api/v1/users/get_user_data`)
+            .then((response) => {
+                setLoggedIn(true)
+                setUserEmail(response.data.email)
+              })
+            .catch(err => {
+              setLoggedIn(false)
+            })
+      }, [userToken])
 
     let taskId = parseInt(params.taskID, 10) || false;
 
@@ -88,7 +103,10 @@ function TaskDetail(factory, deps) {
 
     return (
         <main>
-            <NavComponent />
+            <NavComponent
+                userEmail={userEmail}
+                loggedIn={loggedIn}
+            />
             <Container>
                 {banner && <Alert variant={bannerLvl}>{bannerMsg}</Alert>}
                 {!error && taskFound}

@@ -11,6 +11,21 @@ function Create() {
     const [formSubmitted, setFormsubmitted] = React.useState(false);
     const [formError, setFormError] = React.useState(false);
     const [formErrorMsg, setFormErrorMsg] = React.useState('');
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [userEmail, setUserEmail] = React.useState('');
+
+    const userToken = localStorage.getItem('userToken');
+
+    React.useEffect(() => {
+        base_api.get(`/api/v1/users/get_user_data`)
+            .then((response) => {
+                setLoggedIn(true)
+                setUserEmail(response.data.email)
+              })
+            .catch(err => {
+              setLoggedIn(false)
+            })
+      }, [userToken])
 
     function handleChange(event){
         const {name, value} = event.target
@@ -57,7 +72,10 @@ function Create() {
 
     return (
       <main>
-          <Nav />
+          <Nav
+              userEmail={userEmail}
+              loggedIn={loggedIn}
+          />
           <Container>
               {formSubmitted && <Alert variant={"success"}>Form successfully submitted!</Alert>}
               {formError && <Alert variant={"danger"}>{formErrorMsg}</Alert>}
