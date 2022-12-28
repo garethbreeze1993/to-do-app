@@ -7,7 +7,9 @@ function LogOut() {
     localStorage.removeItem("userRefreshToken");
   return (
     <main>
-        <Nav />
+        <Nav
+            loggedIn={false}
+        />
         <Alert variant={"success"}>Successfully logged out</Alert>
     </main>
   );

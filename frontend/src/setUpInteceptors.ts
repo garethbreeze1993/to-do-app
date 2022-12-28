@@ -12,7 +12,7 @@ const refreshAuthLogic = async (failedRequest) => {
     const refreshToken = localStorage.getItem("userRefreshToken");
 
       try {
-        const rs = await axios.post(`/refresh`, {
+        const rs = await axios.post(`/api/v1//refresh`, {
           refresh_token:  refreshToken,
         });
 
@@ -34,8 +34,6 @@ function getAccessToken() {
 
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  const token = localStorage.getItem("userToken");
-  console.log(token)
   config.headers["Authorization"] = `Bearer ${getAccessToken()}`;
 
   return config;

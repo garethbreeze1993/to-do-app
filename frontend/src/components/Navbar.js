@@ -6,54 +6,35 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import base_api from "../base_api";
 
 
-function NavComponent() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [userEmail, setUserEmail] = React.useState('');
-  const userToken = localStorage.getItem('userToken');
-
-
-  React.useEffect(() => {
-    if(userToken){
-    base_api.get(`/api/v1/users/get_user_data`)
-        .then((response) => {
-            setLoggedIn(true)
-            setUserEmail(response.data.email)
-          })
-        .catch(err => {
-          setLoggedIn(false)
-        })
-    }
-  }, [userToken])
+function NavComponent(props) {
 
   return (
     <>
         <Navbar bg="dark" variant="dark">
-    <Container>
-    <Navbar.Brand href="/">Todoo App</Navbar.Brand>
-    <Nav className="me-auto">
-      <Nav.Link href="/">Home</Nav.Link>
-      <Nav.Link href="/about">About</Nav.Link>
-      <Nav.Link href="/create">Create</Nav.Link>
-    </Nav>
-      <Navbar.Collapse className="justify-content-end">
-        {!loggedIn ?
-            <>
-              <Nav.Link href="/login">Log in</Nav.Link>
-              <Nav.Link href="/signup">Sign Up</Nav.Link>
-            </>
-            :
-            <>
-              <Navbar.Text>
-                Signed in as: {userEmail}
-              </Navbar.Text>
+            <Container>
+            <Navbar.Brand href="/">Todoo App</Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/about">About</Nav.Link>
+              {props.loggedIn && <Nav.Link href="/create">Create</Nav.Link>}
+            </Nav>
+              <Navbar.Collapse className="justify-content-end">
+                {!props.loggedIn ?
+                    <>
+                      <Nav.Link href="/login">Log in</Nav.Link>
+                      <Nav.Link href="/signup">Sign Up</Nav.Link>
+                    </>
+                    :
+                    <>
+                      <Navbar.Text>
+                        Signed in as: {props.userEmail}
+                      </Navbar.Text>
                       <Nav.Link href="/logout">Log Out</Nav.Link>
-            </>
-        }
-    </Navbar.Collapse>
-    </Container>
-  </Navbar>
-        {/*<Link to="/">Home</Link>*/}
-        {/*<Link to="/about">About</Link>*/}
+                    </>
+                }
+              </Navbar.Collapse>
+            </Container>
+        </Navbar>
     </>
   );
 }

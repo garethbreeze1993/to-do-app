@@ -7,7 +7,7 @@ import CardGroup from "react-bootstrap/CardGroup";
 import Alert from "react-bootstrap/Alert";
 import base_api from "../base_api";
 
-export default function Home() {
+export default function Home(props) {
     const [taskObj, setTaskObj] = React.useState([]);
     const [allTaskObj, setAllTaskObj] = React.useState([]);
     const [totalEntries, setTotalEntries] = React.useState(0)
@@ -15,8 +15,6 @@ export default function Home() {
     const size = 25;
     const locState  = useLocation();
     const deletePage = locState.state ? locState.state.deleteObj : false;
-    const [loginTxt, setLoginTxt] = React.useState(false);
-
 
     // url = {{URL}}tasks?page=1&size=25
     // Get total and size from API request to determine how many pages needed
@@ -30,7 +28,6 @@ export default function Home() {
             })
             .catch(function (error) {
                 if (error.response.data.detail === 'Could not validate credentials'){
-                    setLoginTxt(true);
                 }
             })
     }, [page])
@@ -96,7 +93,7 @@ export default function Home() {
         :
         <>
         <h4>No Tasks created yet</h4>
-        {loginTxt && <h5>Please Login to view tasks</h5>}
+        {!props.loggedIn && <h5>Please Login to view tasks</h5>}
             </>
     return (
         <section>
