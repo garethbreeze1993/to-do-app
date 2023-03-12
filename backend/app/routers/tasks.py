@@ -30,6 +30,8 @@ def get_task(id_: int, db_session: Session = Depends(get_db),
              current_user: 'models.User' = Depends(oauth2.get_current_user)):
     owner_id = current_user.id
 
+    log.info(f'TEST LOG APPLICATION MESSAGE uuid={current_user.id}')
+
     task = db_session.query(models.Task)\
         .filter(models.Task.id == id_,
                 models.Task.owner_id == owner_id)\
