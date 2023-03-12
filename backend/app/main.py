@@ -36,7 +36,6 @@ app.include_router(tasks.router)
 add_pagination(app)
 
 
-# @app.get("/")
-# def read_root():
-#     log.info('using ini')
-#     return {"Hello": "World"}
+@app.get("/")
+def read_root(current_user: 'models.User' = Depends(oauth2.get_current_user)):
+    return {"Hello": "World"}
