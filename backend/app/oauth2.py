@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import logging
 
 from jose import JWTError, jwt, ExpiredSignatureError
 from fastapi import HTTPException, status, Depends
@@ -20,6 +21,7 @@ JWT_REFRESH_SECRET_KEY = settings.refresh_secret_key
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 # To get a token sends a request with username and password to api_root/login
 
+log = logging.getLogger(__name__)
 
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -43,14 +45,17 @@ def verify_access_token(token: str, credentials_exception, expired_exception):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get('user_id')
         if user_id is None:
+            log.error('Credentials exception raised user id None')
             raise credentials_exception
 
         token_data = TokenData(user_id=user_id)
 
     except ExpiredSignatureError as e:
+        log.warning(f'Usertoken expired error={e}')
         raise expired_exception
 
     except JWTError as e:
+        log.error(f'JWT Error error={e}')
         raise credentials_exception
 
     return token_data
@@ -62,9 +67,11 @@ def verify_refresh_token(token: str, credentials_exception):
         payload = jwt.decode(token, JWT_REFRESH_SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get('user_id')
         if user_id is None:
+            log.error('credentials exception raised refresh method')
             raise credentials_exception
 
     except JWTError as e:
+        log.error(f'JWT error raised refresh method error={e}')
         raise credentials_exception
 
     return user_id

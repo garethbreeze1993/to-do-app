@@ -28,3 +28,4 @@ yarn-error.log*
 __pycache__
 backend/venv/
 .env
+backend/app.log

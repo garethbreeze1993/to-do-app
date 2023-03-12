@@ -1,4 +1,8 @@
+import configparser
+import logging
+import logging.config
 from fastapi import FastAPI, Depends
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 
@@ -7,6 +11,12 @@ from app import oauth2, models
 
 app = FastAPI()
 # command uvicorn app.main:app to run server
+
+config = configparser.ConfigParser()
+config.read('logging.ini')
+logging.config.fileConfig(config)
+
+log = logging.getLogger(__name__)
 
 # At the moment allow all domains and all headers to connect to this API maybe change when push to deployment etc.
 origins = ["*"]  # This means all domains can access our API
@@ -26,6 +36,7 @@ app.include_router(tasks.router)
 add_pagination(app)
 
 
-@app.get("/")
-def read_root(current_user: 'models.User' = Depends(oauth2.get_current_user)):
-    return {"Hello": "World"}
+# @app.get("/")
+# def read_root():
+#     log.info('using ini')
+#     return {"Hello": "World"}

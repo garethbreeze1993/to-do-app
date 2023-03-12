@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, status, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import exc
@@ -8,6 +10,8 @@ from app import models
 from app import oauth2
 from app.schemas import AccessToken, Token, RefreshToken
 from app.utils import verify_password
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1", tags=["Authentication"])
 
@@ -20,6 +24,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db_session: Session 
             .filter(models.User.email == form_data.username)\
             .one()
     except exc.SQLAlchemyError as e:
+        log.error('Problem with getting user from database')
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
@@ -27,6 +32,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db_session: Session 
         )
 
     if not verify_password(plain_password=form_data.password, hashed_password=user.password):
+        log.error('Incorrect email or password when login')
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",

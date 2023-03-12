@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, status, Depends, HTTPException, Response
 from fastapi_pagination import paginate, Page
 from sqlalchemy import exc
@@ -7,6 +9,8 @@ from app.database import get_db
 from app import models
 from app import oauth2
 from app.schemas import TaskResponse, TaskCreate, TaskComplete
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/tasks", tags=["tasks"])
 
@@ -32,6 +36,7 @@ def get_task(id_: int, db_session: Session = Depends(get_db),
         .first()
 
     if not task:
+        log.error(f'Task not found with id={id_} get task detail get request')
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Task not found with id={id_}')
 
     return task
@@ -49,6 +54,7 @@ def create_task(task_input: TaskCreate, db_session: Session = Depends(get_db),
     try:
         db_session.commit()
     except exc.SQLAlchemyError as e:
+        log.error('Error creating task sql alchemy')
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f'Unexpected problem please check the request and try again')
 
@@ -64,9 +70,11 @@ def delete_task(id_: int, db_session: Session = Depends(get_db),
     owner_id = current_user.id
 
     if not task:
+        log.error(f'Task not found id={id_} when deleting task')
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Task not found id={id_}')
 
     if task.owner_id != owner_id:
+        log.error(f'Not authorised to perform requested action wrong user trying to delete other user post')
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorised to perform requested action')
 
     db_session.delete(task)
@@ -74,6 +82,7 @@ def delete_task(id_: int, db_session: Session = Depends(get_db),
     try:
         db_session.commit()
     except exc.SQLAlchemyError as e:
+        log.error('Error sqlalchemy when trying to delete post')
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f'Unexpected problem please check the request and try again')
 
@@ -87,9 +96,11 @@ def update_task(id_: int, task_input: TaskCreate, db_session: Session = Depends(
     owner_id = current_user.id
 
     if not task:
+        log.error(f'Task not found id={id_} update task')
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Task not found id={id_}')
 
     if task.owner_id != owner_id:
+        log.error('Not authorised to update task wrong user')
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorised to perform requested action')
 
     for field in ['title', 'description', 'deadline']:
@@ -100,6 +111,7 @@ def update_task(id_: int, task_input: TaskCreate, db_session: Session = Depends(
     try:
         db_session.commit()
     except exc.SQLAlchemyError as e:
+        log.error('Error for update method when updating task')
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f'Unexpected problem please check the request and try again')
 
@@ -115,9 +127,11 @@ def complete_task(id_: int, task_input: TaskComplete, db_session: Session = Depe
     owner_id = current_user.id
 
     if not task:
+        log.error(f'Task not found id={id_} complete task')
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Task not found id={id_}')
 
     if task.owner_id != owner_id:
+        log.error(f'Not authorised to complete task wrong user')
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorised to perform requested action')
 
     task.completed = task_input.completed
@@ -127,6 +141,7 @@ def complete_task(id_: int, task_input: TaskComplete, db_session: Session = Depe
     try:
         db_session.commit()
     except exc.SQLAlchemyError as e:
+        log.error('Problem with sqlalchemy complete task')
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail=f'Unexpected problem please check the request and try again')
 
