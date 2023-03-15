@@ -12,7 +12,7 @@ const refreshAuthLogic = async (failedRequest) => {
     const refreshToken = localStorage.getItem("userRefreshToken");
 
       try {
-        const rs = await axios.post(`/api/v1//refresh`, {
+        const rs = await axios.post(`/api/v1/refresh`, {
           refresh_token:  refreshToken,
         });
 

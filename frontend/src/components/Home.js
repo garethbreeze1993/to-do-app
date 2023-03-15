@@ -6,13 +6,15 @@ import { useLocation } from "react-router-dom"
 import CardGroup from "react-bootstrap/CardGroup";
 import Alert from "react-bootstrap/Alert";
 import base_api from "../base_api";
+import {changeDateLayout, checkDeadlinePassed, sadfrownImg, notCompletedIcon, completedIcon} from "../helpers";
+
 
 export default function Home(props) {
     const [taskObj, setTaskObj] = React.useState([]);
     const [allTaskObj, setAllTaskObj] = React.useState([]);
     const [totalEntries, setTotalEntries] = React.useState(0)
     const [page, setPage] = React.useState(1);
-    const size = 25;
+    const size = 10;
     const locState  = useLocation();
     const deletePage = locState.state ? locState.state.deleteObj : false;
 
@@ -70,12 +72,13 @@ export default function Home(props) {
             <Card>
                   <Card.Body>
                     <Card.Title>{task.title}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{task.deadline && task.deadline}</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">{task.deadline && changeDateLayout(task.deadline)}</Card.Subtitle>
+                      {task.deadline && <Card.Text>{checkDeadlinePassed(task) && sadfrownImg}</Card.Text>}
                     <Card.Text>
                         {task.description}
                     </Card.Text>
                       <Card.Text>
-                      {task.completed ? "Completed" : "Not Completed"}
+                          {"Completed - "}{task.completed ? completedIcon : notCompletedIcon}
                     </Card.Text>
                     <Card.Link href={`/tasks/${task.id}`}>More Details</Card.Link>
                   </Card.Body>

@@ -9,7 +9,7 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import Container from "react-bootstrap/Container";
 import base_api from "../base_api";
-
+import {changeDateLayout, checkDeadlinePassed, sadfrownImg, completedIcon, notCompletedIcon} from "../helpers";
 
 
 function TaskDetail() {
@@ -80,18 +80,20 @@ function TaskDetail() {
         })
     }
 
+
     const taskFound = task ?
                     <>
                     <CardGroup key={task.id}>
                 <Card>
                       <Card.Body>
                         <Card.Title>{task.title}</Card.Title>
-                        <Card.Subtitle className="mb-2 text-muted">{task.deadline && task.deadline}</Card.Subtitle>
+                        <Card.Subtitle className="mb-2 text-muted">{task.deadline && changeDateLayout(task.deadline)}</Card.Subtitle>
+                          {task.deadline && <Card.Text>{checkDeadlinePassed(task) && sadfrownImg}</Card.Text>}
                         <Card.Text>
                             {task.description}
                         </Card.Text>
                           <Card.Text>
-                          {task.completed ? "Completed" : "Not Completed"}
+                              {"Completed - "}{task.completed ? completedIcon : notCompletedIcon}
                         </Card.Text>
                       </Card.Body>
                 </Card>
