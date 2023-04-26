@@ -12,6 +12,12 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
     refresh_secret_key: str
     refresh_token_expire_minutes: int
+    broker_protocol: str
+    broker_username: str
+    broker_password: str
+    broker_host: str
+    broker_port: int
+    broker_vhost: str
 
     class Config:
         env_file = './.env'

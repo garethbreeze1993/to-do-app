@@ -5,6 +5,7 @@ import React from "react"
 import { useLocation } from "react-router-dom"
 import CardGroup from "react-bootstrap/CardGroup";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import base_api from "../base_api";
 import {changeDateLayout, checkDeadlinePassed, sadfrownImg, notCompletedIcon, completedIcon} from "../helpers";
 
@@ -17,6 +18,7 @@ export default function Home(props) {
     const size = 10;
     const locState  = useLocation();
     const deletePage = locState.state ? locState.state.deleteObj : false;
+    const [reportGenerated, setReportGenerated] = React.useState(false);
 
     // url = {{URL}}tasks?page=1&size=25
     // Get total and size from API request to determine how many pages needed
@@ -86,9 +88,19 @@ export default function Home(props) {
                 </CardGroup>
     })
 
+    const handleReportClick = () => {
+        base_api.get('/api/v1/reports/')
+            .then(data => {
+                setReportGenerated(true)})
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     const returnContent = totalEntries > 0 ?
         <div>
         <h1>Tasks</h1>
+            <Button variant={"primary"} onClick={handleReportClick}>Generate Report for User</Button>
             {tasks}
             <p>You have {totalEntries} tasks in total of which {allTaskObj.filter((task_) => task_.completed === true).length} are completed</p>
             <Pagination>{items}</Pagination>
@@ -102,6 +114,8 @@ export default function Home(props) {
         <section>
             <Container>
                 {deletePage && <Alert variant={"success"}>{"Task successfully deleted!"}</Alert>}
+                {reportGenerated && <Alert variant={"success"}>
+                    Report Generated. Please check your email to download the report</Alert>}
                 {returnContent}
             </Container>
         </section>
