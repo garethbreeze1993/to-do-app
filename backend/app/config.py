@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     broker_host: str
     broker_port: int
     broker_vhost: str
+    path_backend_dir: str
 
     class Config:
         env_file = './.env'
