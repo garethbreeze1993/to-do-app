@@ -1,8 +1,10 @@
 import csv
 from datetime import datetime
 import os
+from typing import Tuple
 
 from passlib.context import CryptContext
+from sqlalchemy.orm.query import Query
 
 from app import models
 from app.config import settings
@@ -18,11 +20,11 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def return_path_to_csv_file(user_email: str) -> str:
+def return_path_to_csv_file_and_filename(user_email: str) -> Tuple[str, str]:
     """
     Function which returns a path to a CSV file
     ::param user_email the logged-in users email
-    ::return the path to the CSV file
+    ::return the path to the CSV file and the name of the csvfile to be attached to the email
     """
 
     path = os.path.join('/', settings.path_backend_dir)
@@ -43,10 +45,10 @@ def return_path_to_csv_file(user_email: str) -> str:
 
     csv_path = os.path.join(local_file_storage_path, csv_filename)
 
-    return csv_path
+    return csv_path, csv_filename
 
 
-def make_csv_file(csv_path: str, tasks, task_count: int) -> None:
+def make_csv_file(csv_path: str, tasks: Query, task_count: int) -> None:
     """
     Function which takes in a path to a CSV file and the SQLAlchemy query data and makes a CSV report
     ::param csv_path: path to the CSV file
