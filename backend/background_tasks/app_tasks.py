@@ -6,7 +6,7 @@ from redmail import gmail
 from .celery import celery_app
 from app import models
 from app.config import settings
-from app.utils import make_csv_file, return_path_to_csv_file_and_filename
+from app.utils import make_csv_file, return_path_to_csv_file_and_filename, get_data_for_csv_file
 from background_tasks.celery_database import SqlAlchemyTask, celery_db_session
 
 log = get_task_logger(__name__)
@@ -28,7 +28,10 @@ def create_task_report_for_user(owner_id: int, user_email: str) -> None:
 
     csv_path, filename = return_path_to_csv_file_and_filename(user_email=user_email)
 
-    make_csv_file(csv_path=csv_path, tasks=tasks, task_count=task_count)
+    task_data, task_completed, task_deadline_passed = get_data_for_csv_file(tasks=tasks)
+
+    make_csv_file(csv_path=csv_path, task_data=task_data, task_count=task_count, task_completed=task_completed,
+                  task_deadline_passed=task_deadline_passed)
 
     gmail.username = settings.email_sender
     gmail.password = settings.email_app_password

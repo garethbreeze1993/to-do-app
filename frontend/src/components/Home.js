@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom"
 import CardGroup from "react-bootstrap/CardGroup";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import base_api from "../base_api";
 import {changeDateLayout, checkDeadlinePassed, sadfrownImg, notCompletedIcon, completedIcon} from "../helpers";
 
@@ -98,18 +100,24 @@ export default function Home(props) {
     }
 
     const returnContent = totalEntries > 0 ?
-        <div>
-        <h1>Tasks</h1>
-            <Button variant={"primary"} onClick={handleReportClick}>Generate Report for User</Button>
+        <>
+            <div className={"row justify-content-between"} style={{marginTop: "25px"}}>
+                <div className={"col-4"}>
+                    <h1>Tasks</h1>
+                </div>
+                <div className={"col-4"}>
+                    <Button variant={"primary"} onClick={handleReportClick}>Generate Report for User</Button>
+                </div>
+            </div>
             {tasks}
             <p>You have {totalEntries} tasks in total of which {allTaskObj.filter((task_) => task_.completed === true).length} are completed</p>
             <Pagination>{items}</Pagination>
-            </div>
+            </>
         :
         <>
-        <h4>No Tasks created yet</h4>
-        {!props.loggedIn && <h5>Please Login to view tasks</h5>}
-            </>
+            <h4>No Tasks created yet</h4>
+            {!props.loggedIn && <h5>Please Login to view tasks</h5>}
+        </>
     return (
         <section>
             <Container>

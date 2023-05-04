@@ -51,7 +51,7 @@ def test_user(client) -> dict:
     :param client: A pycharm fixture which is a fastapi test client
     :return: dict with user information
     """
-    user_dict = {'email': 'gareth@gmail.com', 'password': 'password123'}
+    user_dict = {'email': 'gareth.breeze@garethbreezecode.com', 'password': 'password123'}
     res = client.post('/api/v1/users/', json=user_dict)
     assert res.status_code == 201
     new_user = dict(password=user_dict['password'], **res.json())
