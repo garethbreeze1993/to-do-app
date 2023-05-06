@@ -83,8 +83,17 @@ def test_make_csv_file():
                  ['Task 3', '31/08/2022', 'False', 'YES']]
     task_complete = 1
     task_deadline_pass = 1
-    csv_path = '/home/gareth/Documents/Projects/to-do-app/backend/local_storage/' \
-               'report_gareth.breeze@garethbreezecode.com_test.csv'
+
+    path = os.path.join('/', settings.path_backend_dir)
+    local_file_storage_path = os.path.join(path, 'local_storage')
+
+    try:
+        os.mkdir(local_file_storage_path)
+    except FileExistsError:
+        pass
+
+    csv_path = os.path.join(local_file_storage_path, "report_gareth.breeze@garethbreezecode.com_test.csv")
+
     make_csv_file(csv_path=csv_path, task_data=test_data, task_count=len(test_data), task_completed=task_complete,
                   task_deadline_passed=task_deadline_pass)
 

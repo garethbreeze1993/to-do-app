@@ -18,6 +18,15 @@ jobs:
       ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
       REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY}}
       REFRESH_TOKEN_EXPIRE_MINUTES: ${{secrets.REFRESH_TOKEN_EXPIRE_MINUTES}}
+      BROKER_PROTOCOL: ${{secrets.BROKER_PROTOCOL}}
+      BROKER_USERNAME: ${{secrets.BROKER_USERNAME}}
+      BROKER_PASSWORD: ${{secrets.BROKER_PASSWORD}}
+      BROKER_HOST: ${{secrets.BROKER_HOST}}
+      BROKER_PORT: ${{secrets.BROKER_PORT}}
+      BROKER_VHOST: ${{secrets.BROKER_VHOST}}
+      PATH_BACKEND_DIR: ${{secrets.PATH_BACKEND_DIR}}
+      EMAIL_SENDER: ${{secrets.EMAIL_SENDER}}
+      EMAIL_APP_PASSWORD: ${{secrets.EMAIL_APP_PASSWORD}}
 
     services:
       postgres:
@@ -33,6 +42,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      rabbitmq:
+        image: rabbitmq
+        env:
+          RABBITMQ_DEFAULT_USER: ${{secrets.BROKER_USERNAME}}
+          RABBITMQ_DEFAULT_PASS: ${{secrets.BROKER_PASSWORD}}
+          RABBITMQ_DEFAULT_VHOST: ${{secrets.BROKER_VHOST}}
+        ports:
+          5672:5672
     steps:
       - name: Pulling git repo
         uses: actions/checkout@v3
