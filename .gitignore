@@ -31,3 +31,5 @@ backend/venv/
 backend/app.log
 backend/celery.log
 backend/local_storage
+
+*.sh
