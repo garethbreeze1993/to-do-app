@@ -125,6 +125,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script_path: /home/gareth/deployment.sh
+          script: |
+            /home/$USER/deployment.sh
 
 
