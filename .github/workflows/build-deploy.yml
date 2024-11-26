@@ -117,8 +117,25 @@ jobs:
     environment:
       name: production
     env:
-      BROKER_PASSWORD: ${{secrets.BROKER_PASSWORD}}
+      DATABASE_HOSTNAME: ${{secrets.DATABASE_HOSTNAME}}
+      DATABASE_PORT: ${{secrets.DATABASE_PORT}}
+      DATABASE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+      DATABASE_NAME: ${{secrets.DATABASE_NAME}}
       DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      ALGORITHM: ${{secrets.ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTES}}
+      REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY}}
+      REFRESH_TOKEN_EXPIRE_MINUTES: ${{secrets.REFRESH_TOKEN_EXPIRE_MINUTES}}
+      BROKER_PROTOCOL: ${{secrets.BROKER_PROTOCOL}}
+      BROKER_USERNAME: ${{secrets.BROKER_USERNAME}}
+      BROKER_PASSWORD: ${{secrets.BROKER_PASSWORD}}
+      BROKER_HOST: ${{secrets.BROKER_HOST}}
+      BROKER_PORT: ${{secrets.BROKER_PORT}}
+      BROKER_VHOST: ${{secrets.BROKER_VHOST}}
+      PATH_BACKEND_DIR: ${{secrets.PATH_BACKEND_DIR}}
+      EMAIL_SENDER: ${{secrets.EMAIL_SENDER}}
+      EMAIL_APP_PASSWORD: ${{secrets.EMAIL_APP_PASSWORD}}
     steps:
       - name: Pulling git repo
         uses: actions/checkout@v4
@@ -133,6 +150,10 @@ jobs:
             echo "Time: $(date). Time and date so know when written to logs."
             echo $BROKER_PASSWORD
             export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+            export DATABASE_HOSTNAME=${{ secrets.DATABASE_HOSTNAME }}
+            export DATABASE_PORT=${{ secrets.DATABASE_PORT }}
+            export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
             cd todo-app/src
             git pull
             cd backend
@@ -152,5 +173,5 @@ jobs:
             echo "Restarting celery"
             echo ${{ secrets.PRODUCTION_PASSWORD }} | sudo -S systemctl restart celery.service
             echo "rebooting server"
-
-
+            
+            
