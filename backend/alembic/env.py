@@ -5,17 +5,29 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+try:
+    from app.config import settings
+
+except Exception:
+    database_username = os.getenv('DATABASE_USERNAME', 'POSTGRES')
+    database_password = os.getenv('DATABASE_PASSWORD', '<PASSWORD>')
+    database_hostname = os.getenv('DATABASE_HOSTNAME', 'localhost')
+    database_port = os.getenv('DATABASE_PORT', '5432')
+    database_name = os.getenv('DATABASE_NAME', 'postgres')
+
+else:
+    database_username = settings.database_username
+    database_password = settings.database_password
+    database_hostname = settings.database_hostname
+    database_port = settings.database_port
+    database_name = settings.database_name
+
 from app.models import Base  # Need to import from here so alembic can read from the models file
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-database_username = os.getenv('DATABASE_USERNAME', 'POSTGRES')
-database_password = os.getenv('DATABASE_PASSWORD', '<PASSWORD>')
-database_hostname = os.getenv('DATABASE_HOSTNAME', 'localhost')
-database_port = os.getenv('DATABASE_PORT', '5432')
-database_name = os.getenv('DATABASE_NAME', 'postgres')
 
 # Override sqlalchemyurl from alembic.ini file so can use env variables not hardcoded when env is set up
 config.set_main_option("sqlalchemy.url",
