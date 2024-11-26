@@ -148,7 +148,6 @@ jobs:
           script: |
             exec > /home/$USER/deployment_logs.log 2>&1
             echo "Time: $(date). Time and date so know when written to logs."
-            echo $BROKER_PASSWORD
             export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
             export DATABASE_HOSTNAME=${{ secrets.DATABASE_HOSTNAME }}
             export DATABASE_PORT=${{ secrets.DATABASE_PORT }}
