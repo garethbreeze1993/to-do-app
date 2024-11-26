@@ -118,6 +118,7 @@ jobs:
       name: production
     env:
       BROKER_PASSWORD: ${{secrets.BROKER_PASSWORD}}
+      DATABASE_USERNAME: ${{secrets.DATABASE_USERNAME}}
     steps:
       - name: Pulling git repo
         uses: actions/checkout@v4
