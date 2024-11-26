@@ -128,6 +128,26 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            /home/$USER/deployment.sh
+            exec > /home/$USER/deployment_logs.log 2>&1
+            echo "Time: $(date). Time and date so know when written to logs."
+            cd todo-app/src
+            git pull
+            cd backend
+            activate () {
+            . $PWD/venv/bin/activate
+            }
+        
+            activate
+            pip3 install -r requirements.txt
+            alembic upgrade head
+            cd ..
+            cd frontend
+            npm install
+            echo ${{ secrets.PRODUCTION_PASSWORD }} | sudo -S cp -r ./build/* /var/www/garethbreeze-todo-app.xyz/html
+            echo "Restarting api service"
+            echo ${{ secrets.PRODUCTION_PASSWORD }} | sudo -S systemctl restart backend_api.service
+            echo "Restarting celery"
+            echo ${{ secrets.PRODUCTION_PASSWORD }} | sudo -S systemctl restart celery.service
+            echo "rebooting server"
 
 
